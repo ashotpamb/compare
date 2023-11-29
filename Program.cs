@@ -28,7 +28,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 var fileService = new FileService(app.Services.CreateScope().ServiceProvider);
 // fileService.WriteToFile();
-await fileService.CreateUserFromFile();
+await fileService.ComapreAndAdd();
 app.Run();

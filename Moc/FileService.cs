@@ -76,7 +76,7 @@ namespace Compare.Moc
             return user;
         }
 
-        public async Task CreateUserFromFile()
+        public async Task ComapreAndAdd()
         {
             var filePath = "users.txt";
             var userObjects = System.IO.File.ReadAllLines(filePath)
@@ -85,10 +85,16 @@ namespace Compare.Moc
             .GroupBy(u => u.Email)
             .Select(grp => grp.First())
             .ToList();
+            await CreateUserFromFile(userObjects);
+        }
+
+        public async Task CreateUserFromFile(List<User> userObjects)
+        {
+
             using (var scope = _serviceProvider.CreateScope())
             {
                 var userRepo = scope.ServiceProvider.GetService<IUserRepository>();
-                var pageSize = 1000;
+                var pageSize = 100;
                 var pageCount = (int)Math.Ceiling((double)userObjects.Count / pageSize);
 
                 for (int i = 0; i < pageCount; i++)
